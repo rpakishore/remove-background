@@ -16,6 +16,7 @@
 <!-- Table of Contents -->
 <h2>Table of Contents</h2>
 
+- [Screenshot](#screenshot)
 - [Features](#features)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
@@ -26,6 +27,10 @@
 - [Roadmap](#roadmap)
 - [License](#license)
 - [Contact](#contact)
+
+
+## Screenshot
+![Screengrab.png](./documents/Screengrab.png)
 
 <!-- Features -->
 ## Features
