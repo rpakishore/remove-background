@@ -133,3 +133,4 @@ nosync*
 src/rmbg/Session.key
 config.toml
 .cursorrules
+.cursorignore
