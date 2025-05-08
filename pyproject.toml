@@ -1,5 +1,5 @@
 [project]
-name = "template_python"
+name = "rmbg"
 version = "0.0.1"
 requires-python = ">=3.12.0"
 authors = [{name = "Arun Kishore", email = "pypi@rpakishore.co.in"}]
@@ -19,11 +19,11 @@ dependencies = [
 ]
 
 [project.urls]
-Home = "https://github.com/rpakishore/template_python"
+Home = "https://github.com/rpakishore/rmbg"
 
 [project.scripts]
-cli="template_python.cli_app:app"
-config="template_python.cli_app:test"
+cli="rmbg.cli_app:app"
+config="rmbg.cli_app:test"
 
 [tool.setuptools.dynamic]
 description = {file = "README.md"}

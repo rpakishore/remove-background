@@ -4,12 +4,12 @@
   <p>
     {description}
   </p>
-  <a href="https://rpakishore.github.io/template_python"> Documentation</a>
+  <a href="https://rpakishore.github.io/rmbg"> Documentation</a>
 </div>
 <br />
 
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/rpakishore/template_python)
-![GitHub last commit](https://img.shields.io/github/last-commit/rpakishore/template_python)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/rpakishore/rmbg)
+![GitHub last commit](https://img.shields.io/github/last-commit/rpakishore/rmbg)
 <!-- Table of Contents -->
 <h2>Table of Contents</h2>
 
@@ -55,4 +55,4 @@ See [LICENSE](/LICENSE) for more information.
 
 Arun Kishore - [@rpakishore](mailto:pypi@rpakishore.co.in)
 
-Project Link: [https://github.com/rpakishore/template_python](https://github.com/rpakishore/template_python)
+Project Link: [https://github.com/rpakishore/rmbg](https://github.com/rpakishore/rmbg)
