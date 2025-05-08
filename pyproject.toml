@@ -7,8 +7,12 @@ readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)"]
 dependencies = [
+    "numpy>=2.2.5",
+    "pillow>=11.2.1",
+    "pymupdf>=1.25.5",
     "rich>=13.9.4",
     "streamlit>=1.45.0",
+    "streamlit-image-coordinates>=0.2.1",
     "typer>=0.15.1",
 ]
 
@@ -17,6 +21,7 @@ Home = "https://github.com/rpakishore/remove-background"
 
 [project.scripts]
 cli="rmbg.cli_app:app"
+gui="rmbg.__main__:gui"
 
 [tool.setuptools.dynamic]
 description = {file = "README.md"}
