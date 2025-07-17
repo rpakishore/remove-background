@@ -1,10 +1,10 @@
 <!--- Heading --->
 <div align="center">
-  <h1>RMBG - Remove Background</h1>
+  <h1>RMBG - Color Transparency Tool</h1>
   <p>
-    A powerful Python tool for removing backgrounds from images and PDFs, featuring both CLI and GUI interfaces.
+    A powerful Python tool for making specific colors transparent in images and PDFs, featuring both CLI and GUI interfaces.
   </p>
-  <a href="https://rpakishore.github.io/remove-background">Documentation</a>
+  <a href="https://github.com/rpakishore/remove-background">Documentation</a>
 </div>
 <br />
 
@@ -35,28 +35,32 @@
 <!-- Features -->
 ## Features
 
-- Remove backgrounds from images with high precision
-- Process PDF documents and remove backgrounds from their pages
-- Multiple output format support (PNG, JPEG, PDF)
+- Make specific colors transparent in images with precision
+- Process PDF documents and make colors transparent from their pages
+- Support for multiple input formats (PNG, JPEG, PDF)
 - Command-line interface for batch processing
 - User-friendly GUI built with Streamlit
-- Fast and efficient processing
-- Extensible architecture for custom background removal algorithms
+- Color selection via color picker or image clicking
+- Adjustable color tolerance for fine-tuned control
+- Fast and efficient processing with NumPy
+- Extensible architecture for custom transparency algorithms
 
 <!-- Getting Started -->
 ## Getting Started
 
 ### Prerequisites
 
-- uv package manager
+- Python 3.12 or higher
+- uv package manager (recommended)
 
 ### Installation
 
-Clone this repo and run
+Clone this repository and install dependencies:
 
 ```bash
-# Using uv
-uv run streamlit run src\rmbg\gui.py
+git clone https://github.com/rpakishore/remove-background.git
+cd remove-background
+uv sync
 ```
 
 <!-- Usage -->
@@ -64,46 +68,73 @@ uv run streamlit run src\rmbg\gui.py
 
 ### Command Line Interface
 
+The CLI allows you to make specific colors transparent in images and PDFs:
+
 ```bash
-# Remove background from an image
-uv run rmbg process image.jpg
+# See all available options
+uv run cli main --help
 
-# Process a PDF file
-uv run rmbg process document.pdf
+# Make white color transparent in an image
+uv run cli main input.jpg output.png
 
-# Specify output format
-uv run rmbg process image.jpg --format png
+# Make a specific color transparent using RGB values
+uv run cli main input.jpg output.png --color 255,0,0
 
-# Process multiple files
-uv run rmbg process *.jpg
+# Use hex color format
+uv run cli main input.jpg output.png --color "#ff0000"
+
+# Adjust color tolerance (0-255)
+uv run cli main input.jpg output.png --color 255,255,255 --tolerance 20
+
+# Process a specific page from a PDF
+uv run cli main document.pdf output.png --page 0
+
+# Set output DPI
+uv run cli main input.jpg output.png --dpi 600
 ```
+
+**CLI Options:**
+- `--color, -c`: Target color in format R,G,B or #RRGGBB (default: white)
+- `--tolerance, -t`: Color matching tolerance 0-255 (default: 10)
+- `--page, -p`: PDF page number, 0-based (default: first page)
+- `--dpi`: Output DPI for PNG files (default: 300)
 
 ### Graphical User Interface
 
 Launch the GUI application:
 
 ```bash
-uv run streamlit run src\rmbg\gui.py
+uv run gui
 ```
 
 The GUI provides an intuitive interface for:
-- Uploading and processing images
-- Previewing results
-- Adjusting processing parameters
-- Batch processing multiple files
+- Uploading images and PDFs
+- Selecting colors via color picker or clicking on the image
+- Adjusting color tolerance with a slider
+- Previewing results in real-time
+- Downloading processed images
+
+**GUI Features:**
+- **Color Selection**: Choose between color picker or click-to-select on the image
+- **Tolerance Control**: Adjust how similar colors should be to the target color
+- **Real-time Preview**: See the transparency effect before processing
+- **Multiple Formats**: Support for PNG, JPG, JPEG, and PDF files
 
 <!-- Roadmap -->
 ## Roadmap
 
 - [x] Set up a skeletal framework
-- [x] Implement basic image processing
+- [x] Implement basic color transparency functionality
 - [x] Add PDF support
-- [x] Create CLI interface
-- [x] Develop GUI application
+- [x] Create CLI interface with Typer
+- [x] Develop GUI application with Streamlit
+- [x] Add color tolerance controls
+- [x] Implement click-to-select color functionality
 - [ ] Add support for more image formats
 - [ ] Implement batch processing optimization
-- [ ] Add custom background removal algorithms
+- [ ] Add custom transparency algorithms
 - [ ] Create plugin system for extensibility
+- [ ] Add background removal using AI models
 
 <!-- License -->
 ## License
