@@ -622,11 +622,9 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
-    { name = "ruff" },
-]
-test = [
     { name = "pytest" },
     { name = "pytest-cov" },
+    { name = "ruff" },
 ]
 
 [package.metadata]
@@ -641,10 +639,10 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = [{ name = "ruff", specifier = ">=0.9.1" }]
-test = [
+dev = [
     { name = "pytest", specifier = ">=8.3.4" },
     { name = "pytest-cov", specifier = ">=6.0.0" },
+    { name = "ruff", specifier = ">=0.9.1" },
 ]
 
 [[package]]

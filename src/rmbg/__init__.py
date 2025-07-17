@@ -2,8 +2,8 @@
 .. include:: ../../README.md
 """
 
-from .core import ImageProcessor
 from .cli import main as cli_main
+from .core import ImageProcessor
 from .gui import main as gui_main
 
 __version__ = "0.1.0"
