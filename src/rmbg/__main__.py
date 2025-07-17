@@ -69,15 +69,22 @@ def main(
 def gui() -> None:
     """Launch the Streamlit GUI interface."""
     try:
-        import streamlit.web.cli as stcli
+        import subprocess
+        import sys
 
-        sys.argv = ["streamlit", "run", str(Path(__file__).parent / "gui.py")]
-        sys.exit(stcli.main())
+        gui_path = Path(__file__).parent / "gui.py"
+        subprocess.run([
+            sys.executable, "-m", "streamlit", "run",
+            str(gui_path)
+        ], check=True)
     except ImportError:
         console.print(
             "[red]Error: Streamlit is not installed. "
             "Please install it with 'uv pip install streamlit'[/red]"
         )
+        sys.exit(1)
+    except subprocess.CalledProcessError as e:
+        console.print(f"[red]Error launching GUI: {e}[/red]")
         sys.exit(1)
 
 

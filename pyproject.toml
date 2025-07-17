@@ -20,7 +20,7 @@ dependencies = [
 Home = "https://github.com/rpakishore/remove-background"
 
 [project.scripts]
-cli="rmbg.cli_app:app"
+cli="rmbg.__main__:app"
 gui="rmbg.__main__:gui"
 
 [tool.setuptools.dynamic]

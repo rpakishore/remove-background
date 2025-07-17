@@ -5,6 +5,7 @@ in images using Streamlit and streamlit-image-coordinates for color selection.
 """
 
 import io
+import tempfile
 from pathlib import Path
 from typing import Tuple
 
@@ -48,7 +49,7 @@ def main() -> None:
 
     st.title("Remove Background")
     st.markdown(
-        "Upload an image or PDF and click on a color to make it transparent. "
+        "Upload an image or PDF and select a color to make it transparent. "
         "Adjust the tolerance to control the transparency effect."
     )
 
@@ -64,37 +65,76 @@ def main() -> None:
     processor = ImageProcessor()
 
     try:
-        temp_path = Path("temp_upload")
-        temp_path.write_bytes(uploaded_file.getvalue())
+        # Create a temporary file with a unique name
+        with tempfile.NamedTemporaryFile(delete=False, suffix=Path(uploaded_file.name).suffix) as temp_file:
+            temp_file.write(uploaded_file.getvalue())
+            temp_path = Path(temp_file.name)
 
         image = processor.load_image(temp_path)
 
-        temp_path.unlink()
+        # Try to delete the temp file, but don't fail if it's still in use
+        try:
+            temp_path.unlink()
+        except (OSError, PermissionError):
+            # File might still be in use, that's okay
+            pass
 
     except Exception as e:
         st.error(f"Error loading file: {e}")
         return
 
     st.subheader("Color Selection")
-    st.markdown("Click on the image below to select a color to make transparent.")
+    
+    # Add toggle for color selection method
+    color_method = st.radio(
+        "Choose how to select the color:",
+        ["Color picker", "Click on image"],
+        horizontal=True
+    )
 
-    _l, _r = st.columns([4, 1])
-    with _l:
-        coord = sic(image, width=600, key="pil")
+    target_color = None
+    selected_color = None
 
-    if coord is not None:
-        x = int(coord["x"] * image.size[0] / coord["width"])
-        y = int(coord["y"] * image.size[1] / coord["height"])
+    if color_method == "Click on image":
+        st.markdown("Click on the image below to select a color to make transparent.")
 
-        target_color = image.getpixel((x, y))
-        selected_color = rgb_to_hex(target_color)
+        _l, _r = st.columns([4, 1])
+        with _l:
+            coord = sic(image, width=600, key="pil")
 
-        _r.markdown(f"Selected color: {selected_color}")
+        if coord is not None:
+            x = int(coord["x"] * image.size[0] / coord["width"])
+            y = int(coord["y"] * image.size[1] / coord["height"])
 
-        _r.markdown(
-            f'<div style="width: 50px; height: 50px; background-color: {selected_color}; border: 1px solid black;"></div>',
-            unsafe_allow_html=True,
+            target_color = image.getpixel((x, y))
+            selected_color = rgb_to_hex(target_color)
+
+            _r.markdown(f"Selected color: {selected_color}")
+
+            _r.markdown(
+                f'<div style="width: 50px; height: 50px; background-color: {selected_color}; border: 1px solid black;"></div>',
+                unsafe_allow_html=True,
+            )
+    else:
+        st.markdown("Use the color picker below to select a color to make transparent.")
+        
+        picked_color = st.color_picker(
+            "Choose a color",
+            value="#ffffff",
+            key="color_picker"
         )
+        
+        if picked_color:
+            target_color = hex_to_rgb(picked_color)
+            selected_color = picked_color
+            
+            col1, col2 = st.columns([1, 3])
+            with col1:
+                st.markdown(f"Selected color: {selected_color}")
+                st.markdown(
+                    f'<div style="width: 50px; height: 50px; background-color: {selected_color}; border: 1px solid black;"></div>',
+                    unsafe_allow_html=True,
+                )
 
     tolerance = st.slider(
         "Color tolerance",
@@ -103,8 +143,9 @@ def main() -> None:
         value=10,
         help="Higher values will match more similar colors",
     )
-    if coord is None:
-        st.warning("Please select a color by clicking on the image first.")
+    
+    if target_color is None:
+        st.warning("Please select a color first.")
         st.stop()
 
     if st.button("Make Transparent", key="make_transparent_button"):

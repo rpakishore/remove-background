@@ -58,6 +58,7 @@ class ImageProcessor:
         Raises:
             ValueError: If the page number is invalid or PDF is corrupted.
         """
+        doc = None
         try:
             doc = fitz.open(pdf_path)
             if page_number >= len(doc):
@@ -69,6 +70,9 @@ class ImageProcessor:
             return img
         except Exception as e:
             raise ValueError(f"Failed to load PDF page: {e}")
+        finally:
+            if doc is not None:
+                doc.close()
 
     def make_transparent(
         self,
