@@ -68,9 +68,9 @@ class ImageProcessor:
 			if page_number >= len(doc):
 				raise ValueError(f"Page number {page_number} out of range")
 
-			page = doc[page_number]
-			pix = page.get_pixmap()
-			img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+			page: fitz.Page = doc[page_number]
+			pix: fitz.Pixmap = page.get_pixmap()
+			img: Image.Image = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
 			return img
 		except Exception as e:
 			raise ValueError(f"Failed to load PDF page: {e}") from None
@@ -99,7 +99,7 @@ class ImageProcessor:
 		if image.mode != "RGBA":
 			image = image.convert("RGBA")
 
-		data = np.array(image)
+		data: np.ndarray[tuple[int, ...], np.dtype[np.Any]] = np.array(image)
 
 		r, g, b, *_ = target_color
 		mask = (
@@ -109,7 +109,7 @@ class ImageProcessor:
 		)
 
 		# Create a copy of the data to avoid modifying the original
-		result = data.copy()
+		result: np.ndarray[tuple[int, ...], np.dtype[np.Any]] = data.copy()
 
 		# Set alpha channel to 0 for matching pixels, preserve original alpha for others
 		result[:, :, 3] = np.where(mask, 0, 255)
